@@ -1,0 +1,62 @@
+﻿<Page
+    x:Class="MasterPasswordApp.SitePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MasterPasswordApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:MasterPasswordApp.Converter"
+    mc:Ignorable="d">
+
+    
+        
+    <Grid Background="DarkGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <converter:BoolToVisibilityConverter x:Key="b2v"></converter:BoolToVisibilityConverter>
+            <converter:NegativeBoolToVisibilityConverter x:Key="nb2v"></converter:NegativeBoolToVisibilityConverter>
+        </Grid.Resources>
+        <TextBlock Grid.Row="0" Height="1000" Visibility="Visible" Style="{StaticResource HeaderTextBlockStyle}" x:Name="hider" Margin="5,0,0,0">Nothing here, move along</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5">
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="User: " ></TextBlock>
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding userName}" Margin="5,0,5,0"></TextBlock>
+            <Button x:Name="btnLogOff" Click="btnLogOff_Click">Log off</Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2"> 
+            <TextBox PlaceholderText="Site Name (e.g. outlook.com)" Text="{Binding viewModel.siteName, Mode=TwoWay}" Margin="5"/>
+            <!---->
+            <ComboBox PlaceholderText="Type of Password" SelectedIndex="{Binding viewModel.siteType, Mode=TwoWay}" Margin="5">
+                <ComboBoxItem Content="MaximumSecurityPassword"/>
+                <ComboBoxItem Content="LongPassword"/>
+                <ComboBoxItem Content="MediumPassword"/>
+                <ComboBoxItem Content="BasicPassword"/>
+                <ComboBoxItem Content="ShortPassword"/>
+                <ComboBoxItem Content="PIN"/>
+                <ComboBoxItem Content="Name"/>
+                <ComboBoxItem Content="Phrase"/>
+            </ComboBox>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Count:" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding viewModel.count, Mode=TwoWay}" Margin="5,0,0,0" InputScope="Number"></TextBox>
+                <Button Content="+" x:Name="btnMore" Width="30" Margin="5,0,0,0" Click="btnMore_Click"></Button>
+                <Button Content="-" x:Name="btnLess" Width="30" Margin="5,0,0,0" Click="btnLess_Click"></Button>
+            </StackPanel>
+            <Button x:Name="btnCalculatePassword" Content="Calculate Password" Click="btnCalculatePassword_Click" Margin="5"/>
+            <StackPanel Orientation="Horizontal" Margin="5,20,5,5"> 
+                <PasswordBox IsEnabled="False" Visibility="{Binding viewModel.showPassword, Converter={StaticResource nb2v}}" Password="{Binding viewModel.password, Mode=OneWay}" Width ="200" PlaceholderText="Password"></PasswordBox>
+                <TextBox IsReadOnly="True" Visibility="{Binding viewModel.showPassword, Converter={StaticResource b2v}}" Text="{Binding viewModel.password, Mode=OneWay}" Width ="200" PlaceholderText="Password"></TextBox>
+                <Button Content="Copy" x:Name="btnCopy" Click="btnCopy_Click" Margin="5,0,5,0"></Button>
+                <ToggleButton Content="Show" x:Name="btnShow" Click="btnShow_Click"></ToggleButton>
+            </StackPanel>
+        </StackPanel>
+
+
+
+    </Grid>
+</Page>
